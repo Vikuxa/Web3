@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="Windows-1251" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обратная связь</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand">Породы собак - Обратная связь</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'home' %}">Главная</a></li>
+                    <li><a href="{% url 'links' %}">Полезные ресурсы</a></li>
+                    <li><a href="{% url 'about' %}">О пректе</a></li>
+                    <li><a href="{% url 'contact' %}">Конаткты</a></li>
+                </ul>
+                {% include 'app/loginpartial.html' %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        {% block content %} {% load staticfiles %}
+        {% if form != None %} <!--если форма не пустая-->
+        <br><h2>Заполните, пожалуйста, предложенную анкету и отправьте нам</h2><br>
+        <div>
+            <form method="post">
+            {% csrf_token %} <!--без понятия кто это-->
+            <label for="{{form.name.id_for_label}}">{{form.name.label}}:</label>
+                {{form.name}}<br><br><!--перенос строки-->
+            <label for="{{form.vozrast.id_for_label}}">{{form.vozrast.label}}:</label>
+                {{form.vozrast}}<br><br>
+            <label for="{{form.gender.id_for_label}}">{{form.gender.label}}:</label>
+                {{form.gender}}
+            <label for="{{form.nalichie_sobaki.id_for_label}}">{{form.nalichie_sobaki.label}}:</label>
+                {{form.nalichie_sobaki}}
+            <label for="{{form.poroda.id_for_label}}">{{form.poroda.label}}:</label>
+                {{form.poroda}}<br><br>
+            <label for="{{form.rassilka.id_for_label}}">{{form.rassilka.label}}:</label>
+                {{form.rassilka}}<br><br>
+            <label for="{{form.email.id_for_label}}">{{form.email.label}}:</label>
+                {{form.email}}<br><br>
+            <label for="{{form.pogelania.id_for_label}}">{{form.pogelania.label}}:</label>
+                <br>
+                {{form.pogelania}}<br><br>
+            <input type="submit" value="Отправить" id="b1"><!--кнопка-->
+            </form>
+        </div>
+        {% else %}
+        <br><h2>Благодарим за предоставленную информацию!</h2>
+        <h3>Предоставленная вами информация:</h3>
+        <ul>
+            <li><span>Имя: </span>{{data.name}}</li>
+            <li><span>Возраст: </span>{{data.vozrast}}</li>
+            <li><span>Пол: </span>{{data.gender}}</li>
+            <li><span>Есть ли собака: </span>{{data.nalichie_sobaki}}</li>
+            <li><span>Порода: </span>{{data.poroda}}</li>
+            <li><span>Получать расслыку на e-mail: </span>{{data.rassilka}}</li>
+            <li><span>E-mail: </span>{{data.email}}</li>
+            <li><span>Пожелания: </span>{{data.pogelania}}</li>
+        </ul>
+        {% endif %}
+        {% endblock %}
+        <hr />
+        <footer>
+            <p>&copy; 2021 - Породы собак</p>
+        </footer>
+    </div>
+
+    <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
+    <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/respond.js' %}"></script>
+
+    <script>
+        function p11()
+        {
+                $('#id_name').css('background-color', 'LightCyan');
+        }
+        function p12()
+        {
+                $('#id_name').css('background-color', 'transparent');
+        }
+        function p21()
+        {
+            $('#id_email').css('background-color', 'MediumSlateBlue');
+            $('#id_email').css('color', 'White');
+        }
+        function p22()
+        {
+            $('#id_email').css('background-color', 'transparent');
+            $('#id_email').css('color', 'Black');
+        }
+        function p31()
+        {
+            $('#b1').css('background-color', 'DarkMagenta');
+            $('#b1').css('color', 'White');
+        }
+        function p32()
+        {
+            $('#b1').css('background-color', 'transparent');
+            $('#b1').css('color', 'Black');
+        }
+        $('#id_name').focus(p11);
+        $('#id_name').blur(p12);
+        $('#id_email').focus(p21);
+        $('#id_email').blur(p22);
+        $('#b1').mouseover(p31);
+        $('#b1').mouseout(p32);
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
